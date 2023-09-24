@@ -5,11 +5,20 @@ import uvicorn
 from dataclasses import dataclass
 from pydantic import BaseModel
 
+from app.users.router import router as router_users
 from app.bookings.router import router as router_bookings
+# from app.hotels.router import router as router_hotels
+# TODO refactor naming
+from app.hotels.rooms.router import router as router_rooms
 
 app = FastAPI()
 
 app.include_router(router_bookings)
+app.include_router(router_users)
+app.include_router(router_rooms)
+
+
+# app.include_router(router_rooms)
 
 # class HotelsSearchArgs:
 #     def __init__(self, location: str,
@@ -40,23 +49,6 @@ class SchemeHotels(BaseModel):
     name: str
     stars: int
     # stars: int = Field(0-5)
-
-
-@app.get('/hotels')
-def get_hotels(search_args: HotelsSearchArgs = Depends()):
-
-    return search_args
-
-
-class SchemeBooking(BaseModel):
-    room_id: int
-    date_from: date
-    date_to: date
-
-
-@app.post('/bookings')
-def add_booking(booking: SchemeBooking):
-    return None
 
 # if __name__ == '__main__':
 #     uvicorn.run()
