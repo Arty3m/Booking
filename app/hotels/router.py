@@ -19,3 +19,9 @@ async def get_hotels(location: str, query_params: HotelsSearchArgs = Depends()):
     return available_hotels
 
 
+@router.get("/id/{hotel_id}", summary="Получение конкретного отеля")
+async def get_hotel(hotel_id: int):
+    hotel = await HotelsService.find_by_id(model_id=hotel_id)
+    if not hotel:
+        print('takogo net')
+    return hotel
